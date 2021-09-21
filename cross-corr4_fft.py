@@ -29,9 +29,6 @@ while True:
 	    d2=np.append(d2,np.float(data[2]))
 	    i=i+1
 	  else:
-	    print("i=100")
-	    print(len(d1))
-	    print(len(d2))
 	    x=range(len(d1)) #plot array
 	    plt.plot(x,d1)
 	    plt.show()
@@ -44,6 +41,7 @@ while True:
 	      d2=np.roll(d2,1)  # shift 1 to the left
 	      corr=np.append(corr,np.dot(d1,d2)*c)   # cross correlation, modified on 16.Sep.2021
 	    mx=np.amax(corr)
+	    print("shift: max and indwx")
 	    print(mx)
 	    for i in range(len(corr)):
 	      if corr[i]==mx:
@@ -56,10 +54,11 @@ while True:
 	    
 	    c=1.0/(np.linalg.norm(d1)*np.linalg.norm(d2)) 
 	    f1=np.fft.fft(d1)
-	    f2=np.fft.fft(d1)
+	    f2=np.conjugate(np.fft.fft(d2))
 	    ff=f1*f2
 	    corrf=np.real(np.fft.ifft(ff))*c
 #find max
+	    print("cross-correlation: max and indwx")
 	    print(np.amax(corrf))
 	    print(find_index(corrf))
 
