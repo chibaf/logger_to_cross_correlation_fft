@@ -3,6 +3,14 @@ import numpy as np
 import serial, sys, time
 import matplotlib.pyplot as plt
 
+def find_index(c):  # find index of maximum value
+  mc=np.amax(c)
+  for i in range(len(c)):
+    if c[i]==mc:
+      im=i
+      break
+  return im
+
 ser=serial.Serial(sys.argv[1], sys.argv[2])  #open serial port
 print("connected to: " + ser.portstr)
 time.sleep(2)
@@ -45,6 +53,20 @@ while True:
 	    x=range(len(corr)) #plot array
 	    plt.plot(x,corr)
 	    plt.show()
+	    
+	    c=1.0/(np.linalg.norm(d1)*np.linalg.norm(d2)) 
+	    f1=np.fft.fft(d1)
+	    f2=np.fft.fft(d1)
+	    ff=f1*f2
+	    corrf=np.real(np.fft.ifft(ff))*c
+#find max
+	    print(np.amax(corrf))
+	    print(find_index(corrf))
+
+	    x=range(len(corrf)) #plot array
+	    plt.plot(x,corrf)
+	    plt.show()
+
 	    d1=np.empty(0)
 	    d2=np.empty(0)
 	    corr=np.empty(0)
